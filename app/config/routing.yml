@@ -1,0 +1,14 @@
+medecin:
+    resource: "@MedecinBundle/Resources/config/routing.yml"
+    prefix:   /admin
+
+tache:
+    resource: "@TacheBundle/Resources/config/routing.yml"
+    prefix:   /admin
+
+site:
+    resource: "@SiteBundle/Resources/config/routing.yml"
+    prefix:   /admin
+
+_user_bundle:
+    resource: "@UserBundle/Resources/config/routing.yml"

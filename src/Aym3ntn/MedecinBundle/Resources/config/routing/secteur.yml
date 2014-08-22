@@ -1,0 +1,30 @@
+secteur:
+    path:     /
+    defaults: { _controller: "MedecinBundle:Secteur:index" }
+
+secteur_show:
+    path:     /{id}/show
+    defaults: { _controller: "MedecinBundle:Secteur:show" }
+
+secteur_new:
+    path:     /new
+    defaults: { _controller: "MedecinBundle:Secteur:new" }
+
+secteur_create:
+    path:     /create
+    defaults: { _controller: "MedecinBundle:Secteur:create" }
+    requirements: { _method: post }
+
+secteur_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "MedecinBundle:Secteur:edit" }
+
+secteur_update:
+    path:     /{id}/update
+    defaults: { _controller: "MedecinBundle:Secteur:update" }
+    requirements: { _method: post|put }
+
+secteur_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "MedecinBundle:Secteur:delete" }
+    requirements: { _method: post|delete }

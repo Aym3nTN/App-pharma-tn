@@ -1,0 +1,25 @@
+<li class="dropdown notifications-menu">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        <i class="fa fa-warning"></i>
+        <span class="label label-warning">{{ notes | length }}</span>
+    </a>
+    <ul class="dropdown-menu">
+        <li class="header">Vous avez {{ notes | length }} notification(s).</li>
+        <li>
+            <!-- inner menu: contains the actual data -->
+            <ul class="menu">
+                {% for note in notes %}
+                <li>
+                    <a href="{{ path('note_redirect', {'id': note.id, 'relatedTo': note.relatedTo}) }}">
+                        <i class="fa fa-exclamation success"></i>
+                        {{ note.descr|length > 50 ? note.descr|slice(0, 50) ~ '...' : note.descr }}
+                    </a>
+                </li>
+                {% else %}
+                    <li></li>
+                {% endfor %}
+            </ul>
+        </li>
+        <li class="footer"><a href="#">View all</a></li>
+    </ul>
+</li>

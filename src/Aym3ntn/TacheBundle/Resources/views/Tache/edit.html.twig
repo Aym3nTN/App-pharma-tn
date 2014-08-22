@@ -1,0 +1,138 @@
+{% extends '::base.html.twig' %}
+
+{% block header %}Tâches{% endblock %}
+    {% block header1 %}Modifier{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/site/css/jquery.simple-dtpicker.css') }}"/>
+{% endblock %}
+{% block body -%}
+    <form action="{{ path('admin_task_update', {'id':entity.id}) }}" method="post">
+        <input type="hidden" name="_method" value="PUT">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <table class="table">
+                            <tr>
+                                <td>Date</td>
+                                <td>{{ form_widget(edit_form.date, {'attr' : {'class' : 'form-control date_picker' } }) }}</td>
+                            </tr>
+                            <tr>
+                                <td>Type</td>
+                                <td>
+                                    {{ form_widget(edit_form.type, {'attr' : {'class' : 'form-control' } }) }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Lieu <i class="fa fa-plus btn btn-success btn-circle pull-right" data-toggle="modal" data-target="#myModalLieu"></i></td>
+                                <td>{{ form_widget(edit_form.lieu, {'attr' : {'class' : 'form-control lieu_tache'} }) }}</td>
+                            </tr>
+                            <tr>
+                                <td>Description</td>
+                                <td>{{ form_widget(edit_form.descr, {'attr' : {'class' : 'form-control' } }) }}</td>
+                            </tr>
+                            <tr>
+                                <td>Medecins</td>
+                                <td>{{ form_widget(edit_form.medecins, {'attr' : {'class' : 'form-control' } }) }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <button class="btn btn-success btn-block" type="submit">Mettre à jour</button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModalLieu" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Ajouter nouveau lieu</h4>
+                </div>
+                <div class="modal-body">
+                    <table>
+                        <tr>
+                            <td>Etiquette</td>
+                            <td><input type="text" id="etiquette" class="form-control"/></td>
+                        </tr>
+                        <tr>
+                            <td>Adresse</td>
+                            <td><input type="text" id="adresse" class="form-control"/></td>
+                        </tr>
+                        <tr>
+                            <td>Ville</td>
+                            <td><input type="text" id="ville" class="form-control"/></td>
+                        </tr>
+                        <tr>
+                            <td>Téléphone</td>
+                            <td><input type="text" id="tel" class="form-control"/></td>
+                        </tr>
+                        <tr>
+                            <td>Convention</td>
+                            <td><input type="text" id="convention" class="form-control"/></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary btn-block ajout" onclick="ajouterLieu()">Mettre à jour</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a href="{{ path('admin_task') }}" class="btn btn-warning margin">
+        Revenir à la liste
+    </a>
+    {{ form(delete_form) }}
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/site/js/jquery.simple-dtpicker.js') }}"></script>
+
+    <script type="text/javascript">
+
+        function ajouterLieu(){
+            $etiquette = $('#etiquette').val();
+            $adr = $('#adresse').val();
+            $ville = $('#ville').val();
+            $tel = $('#tel').val();
+            $convention = $('#convention').val();
+
+            if( !($etiquette && $adr && $ville && $tel && $convention) ){
+                alert('Tous les champs sont obligatoires!');
+                return false;
+            }
+            else{
+                var data = "etiquette="+$etiquette+"&adr="+ $adr+"&ville="+$ville+"&tel="+$tel+"&convention="+$convention;
+
+                $.ajax({
+                    type: "GET",
+                    url: "{{ path('admin_ajouter_lieu_ajax') }}",
+                    data: data,
+                    success: function(server_response){
+                        lieu = server_response.split(",");
+                        $('.lieu_tache').append('<option value="'+lieu[0]+'">'+lieu[1]+'</option>');
+
+                    }
+                });
+            }
+            $('.ajout').on('click', function(){
+                $('#MyModalLieu').modal('toggle');
+            });
+        }
+
+        $(function(){
+            $('.date_picker').prop('type','text');
+
+            $('.date_picker').appendDtpicker({
+                "onInit": function(){
+                    $('.date_picker').handleDtpicker('setDate', new Date('{{ entity.date | date }}'));
+                }
+            });
+        });
+    </script>
+{% endblock %}

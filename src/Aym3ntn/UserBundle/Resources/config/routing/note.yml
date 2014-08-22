@@ -1,0 +1,34 @@
+note:
+    path:     /
+    defaults: { _controller: "UserBundle:Note:index" }
+
+note_show:
+    path:     /{id}/show
+    defaults: { _controller: "UserBundle:Note:show" }
+
+note_new:
+    path:     /new
+    defaults: { _controller: "UserBundle:Note:new" }
+
+note_create:
+    path:     /create
+    defaults: { _controller: "UserBundle:Note:create" }
+    requirements: { _method: post }
+
+note_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "UserBundle:Note:edit" }
+
+note_update:
+    path:     /{id}/update
+    defaults: { _controller: "UserBundle:Note:update" }
+    requirements: { _method: post|put }
+
+note_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "UserBundle:Note:delete" }
+    requirements: { _method: post|delete }
+
+note_redirect:
+    path: /noteRedirect/{id}/{relatedTo}
+    defaults: { _controller: "SiteBundle:Site:noteRedirect" }

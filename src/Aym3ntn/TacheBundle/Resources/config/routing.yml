@@ -1,0 +1,3 @@
+TacheBundle_admin_task:
+    resource: "@TacheBundle/Resources/config/routing/tache.yml"
+    prefix:   /task

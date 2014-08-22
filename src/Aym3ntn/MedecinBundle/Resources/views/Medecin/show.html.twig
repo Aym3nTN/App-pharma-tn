@@ -1,0 +1,53 @@
+{% extends '::base.html.twig' %}
+{% block header %}Medecin{% endblock %}
+{% block header1 %}#{{ entity.id }}{% endblock %}
+
+{% block body -%}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <th>Nom</th>
+                            <td>{{ entity.nom }}</td>
+                        </tr>
+                        <tr>
+                            <th>Prenom</th>
+                            <td>{{ entity.prenom }}</td>
+                        </tr>
+                        <tr>
+                            <th>Sexe</th>
+                            <td>{{ entity.sexe }}</td>
+                        </tr>
+                        <tr>
+                            <th>Age</th>
+                            <td>{{ entity.age }}</td>
+                        </tr>
+                        <tr>
+                            <th>Téléphone</th>
+                            <td>{{ entity.tel }}</td>
+                        </tr>
+                        <tr>
+                            <th>Fax</th>
+                            <td>{{ entity.fax }}</td>
+                        </tr>
+                        <tr>
+                            <th>Site web</th>
+                            <td>{{ entity.siteWeb }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a href="{{ path('medecin_edit', { 'id': entity.id }) }}" class="btn btn-success btn-block margin-bottom">
+        Modifier
+    </a>
+    {{ form(delete_form) }}
+    <a href="{{ path('medecin') }}" class="btn btn-warning btn-block">
+        Revenir à la liste
+    </a>
+{% endblock %}

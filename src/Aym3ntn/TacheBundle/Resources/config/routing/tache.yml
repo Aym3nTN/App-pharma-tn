@@ -1,0 +1,38 @@
+admin_task:
+    path:     /
+    defaults: { _controller: "TacheBundle:Tache:index" }
+
+admin_task_show:
+    path:     /{id}/show
+    defaults: { _controller: "TacheBundle:Tache:show" }
+
+admin_task_new:
+    path:     /new
+    defaults: { _controller: "TacheBundle:Tache:new" }
+
+admin_task_create:
+    path:     /create
+    defaults: { _controller: "TacheBundle:Tache:create" }
+    requirements: { _method: post }
+
+admin_task_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "TacheBundle:Tache:edit" }
+
+admin_task_update:
+    path:     /{id}/update
+    defaults: { _controller: "TacheBundle:Tache:update" }
+    requirements: { _method: post|put }
+
+admin_task_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "TacheBundle:Tache:delete" }
+    requirements: { _method: post|delete }
+
+admin_ajouter_lieu_ajax:
+    pattern: /ajouterLieuAjax
+    defaults: { _controller: "TacheBundle:Tache:ajouterLieuAjax" }
+
+sous_type_tache_ajax:
+    pattern: /chargerSousTypeTache
+    defaults: { _controller: "TacheBundle:Tache:chargerSousTypeAjax" }

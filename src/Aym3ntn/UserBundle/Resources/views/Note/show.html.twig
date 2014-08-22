@@ -1,0 +1,38 @@
+{% extends '::base.html.twig' %}
+{% block header %}Tache{% endblock %}
+{% block header1 %}#{{ entity.id }}{% endblock %}
+
+{% block body -%}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <th>Id</th>
+                            <td>{{ entity.id }}</td>
+                        </tr>
+                        <tr>
+                            <th>Descr</th>
+                            <td>{{ entity.descr }}</td>
+                        </tr>
+                        <tr>
+                            <th>Type</th>
+                            <td>{{ entity.type }}</td>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <a href="{{ path('note_edit', { 'id': entity.id }) }}" class="btn btn-success btn-block margin-bottom">
+        Modifier
+    </a>
+    {{ form(delete_form) }}
+    <a href="{{ path('note') }}" class="btn btn-warning btn-block">
+        Revenir à la liste
+    </a>
+{% endblock %}

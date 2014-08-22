@@ -1,0 +1,30 @@
+medecin:
+    path:     /
+    defaults: { _controller: "MedecinBundle:Medecin:index" }
+
+medecin_show:
+    path:     /{id}/show
+    defaults: { _controller: "MedecinBundle:Medecin:show" }
+
+medecin_new:
+    path:     /new
+    defaults: { _controller: "MedecinBundle:Medecin:new" }
+
+medecin_create:
+    path:     /create
+    defaults: { _controller: "MedecinBundle:Medecin:create" }
+    requirements: { _method: post }
+
+medecin_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "MedecinBundle:Medecin:edit" }
+
+medecin_update:
+    path:     /{id}/update
+    defaults: { _controller: "MedecinBundle:Medecin:update" }
+    requirements: { _method: post|put }
+
+medecin_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "MedecinBundle:Medecin:delete" }
+    requirements: { _method: post|delete }

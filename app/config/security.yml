@@ -1,0 +1,37 @@
+security:
+    encoders:
+        FOS\UserBundle\Model\UserInterface: sha512
+
+    role_hierarchy:
+        ROLE_ADMIN: ROLE_USER
+        ROLE_DELG: ['ROLE_ADMIN']
+        ROLE_SUPERVISEUR: ['ROLE_ADMIN']
+        ROLE_CHEF_PRODUIT: ['ROLE_ADMIN']
+        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
+    providers:
+        fos_userbundle:
+            id: fos_user.user_provider.username
+
+    firewalls:
+        main:
+            pattern:    ^/
+            form_login:
+                check_path: /login_check
+                login_path: /login
+                provider: fos_userbundle
+                default_target_path:  /admin
+
+
+            logout:
+                path:   /logout
+                target: /login
+            anonymous: ~
+            #http_basic:
+            #    realm: "Secured Demo Area"
+
+    access_control:
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/task/new, roles: ['ROLE_DELG'] }
+        - { path: ^/admin/secteur/new, roles: ['ROLE_SUPERVISEUR'] }
+        - { path: ^/admin, roles: 'ROLE_ADMIN' }

@@ -1,0 +1,59 @@
+{% extends '::base.html.twig' %}
+{% block header %}Tâches{% endblock %}
+{% block header1 %}Liste{% endblock %}
+{% block body -%}
+    <div class="row">
+        <div class="col-md-12">
+            <a href="{{ path('admin_task_new') }}" class="btn btn-success margin-bottom">
+                Ajouter une nouvelle tâche
+            </a>
+            <div class="box box-primary">
+                <div class="box-header">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Date</th>
+                            <th>Lieu</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for entity in entities %}
+                            <tr>
+                                <td><a href="{{ path('admin_task_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                                <td>{% if entity.date %}{{ entity.date|date('d/m/Y H:i') }}{% endif %}</td>
+                                <td>{{ entity.lieu.etiquette }}</td>
+                                <td>{{ entity.type.etiquette }} - {{ entity.ssType.etiquette }} </td>
+                                <td>{{ entity.descr|length > 50 ? entity.descr|slice(0, 50) ~ '...' : entity.descr }}</td>
+                                <td>
+                                    {% if entity.status == 1 %}
+                                        <span class="text-danger">En attente</span>
+                                    {% elseif entity.status == 2 %}
+                                        <span class="text-warning">Validé par le superviseur</span>
+                                    {% elseif entity.status == 3 %}
+                                        <span class="text-warning">Validé par le chef du produit</span>
+                                    {% elseif entity.status == 0 %}
+                                        <span class="text-success">Validé!</span>
+                                    {% elseif entity.status == -1 %}
+                                        <span class="text-danger">Refusé!</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{{ path('admin_task_show', { 'id': entity.id }) }}" class="btn btn-primary">Afficher</a>
+                                    <a href="{{ path('admin_task_edit', { 'id': entity.id }) }}" class="btn btn-warning">Modifier</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

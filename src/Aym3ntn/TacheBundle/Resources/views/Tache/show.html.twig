@@ -1,0 +1,65 @@
+{% extends '::base.html.twig' %}
+{% block header %}Tache{% endblock %}
+{% block header1 %}#{{ entity.id }}{% endblock %}
+
+{% block body -%}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <table class="table">
+                        <tr>
+                            <td>Date</td>
+                            <td>{% if entity.date %}{{ entity.date|date('d/m/Y H:i') }}{% endif %}</td>
+                        </tr>
+                        <tr>
+                            <td>Status</td>
+                            <td>
+                                {% if entity.status == 1 %}
+                                    <span class="text-danger">En attente</span>
+                                {% elseif entity.status == 2 %}
+                                    <span class="text-warning">Validé par le superviseur</span>
+                                {% elseif entity.status == 3 %}
+                                    <span class="text-warning">Validé par le chef du produit</span>
+                                {% elseif entity.status == 0 %}
+                                    <span class="text-success">Validé!</span>
+                                {% elseif entity.status == -1 %}
+                                    <span class="text-danger">Refusé!</span>
+                                {% endif %}
+                            </td>                        </tr>
+                        <tr>
+                            <td>Type</td>
+                            <td>{{ entity.type.etiquette }} - {{ entity.ssType.etiquette }} </td>
+                        </tr>
+                        <tr>
+                            <td>Lieu</td>
+                            <td>{{ entity.lieu.etiquette }}</td>
+                        </tr>
+                        <tr>
+                            <td>Descritpion</td>
+                            <td>{{ entity.descr }}</td>
+                        </tr>
+                        <tr>
+                            <td>Medecins</td>
+                            <td>
+                                <table>
+                                {% for medecin in entity.medecins %}
+                                    <tr><td><a href="{{ path('medecin_show', {'id': medecin.id}) }}">{{ medecin.nom }} {{ medecin.prenom }}</a></td></tr>
+                                {% endfor %}
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a href="{{ path('admin_task_edit', { 'id': entity.id }) }}" class="btn btn-success btn-block margin-bottom">
+        Modifier
+    </a>
+    {{ form(delete_form) }}
+    <a href="{{ path('admin_task') }}" class="btn btn-warning btn-block">
+        Revenir à la liste
+    </a>
+{% endblock %}

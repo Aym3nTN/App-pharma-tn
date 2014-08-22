@@ -1,0 +1,57 @@
+{% extends '::base.html.twig' %}
+{% block header %}Medecins{% endblock %}
+{% block header1 %}Liste{% endblock %}
+{% block body -%}
+    <div class="row">
+        <div class="col-md-12">
+            <a href="{{ path('medecin_new') }}" class="btn btn-success margin-bottom">
+                Ajouter un nouveau medecin
+            </a>
+            <div class="box box-primary">
+                <div class="box-header">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Nom</th>
+                            <th>Prenom</th>
+                            <th>Sexe</th>
+                            <th>Age</th>
+                            <th>Tel</th>
+                            <th>Fax</th>
+                            <th>Siteweb</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for entity in entities %}
+                            <tr>
+                                <td><a href="{{ path('medecin_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                                <td>{{ entity.nom }}</td>
+                                <td>{{ entity.prenom }}</td>
+                                <td>{{ entity.sexe }}</td>
+                                <td>{{ entity.age }}</td>
+                                <td>{{ entity.tel }}</td>
+                                <td>{{ entity.fax }}</td>
+                                <td>{{ entity.siteWeb }}</td>
+                                <td>
+                                    <a href="{{ path('medecin_show', { 'id': entity.id }) }}" class="btn btn-primary">Afficher</a>
+                                    <a href="{{ path('medecin_edit', { 'id': entity.id }) }}" class="btn btn-warning">Modifier</a>
+                                </td>
+                            </tr>
+
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ul>
+        <li>
+            <a href="{{ path('medecin_new') }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends '::base.html.twig' %}
+{% block header %}Secteur{% endblock %}
+{% block header1 %}Nouveau{% endblock %}
+{% block body -%}
+    <form action="{{ path('secteur_update', {'id':entity.id} ) }}" method="post">
+        <input type="hidden" name="_method" value="PUT">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        {{ form_errors(edit_form) }}
+                        <table class="table">
+                            <tr>
+                                <td>{{ form_label(edit_form.nom) }}</td>
+                                <td>{{ form_widget(edit_form.nom, {'attr' : { 'class':'form-control'} }) }}</td>
+                            </tr>
+                            <tr>
+                                <td>{{ form_label(edit_form.region) }}</td>
+                                <td>{{ form_widget(edit_form.region, {'attr' : { 'class':'form-control'} }) }}</td>
+                            </tr>
+                            <tr>
+                                <td>{{ form_label(edit_form.description) }}</td>
+                                <td>{{ form_widget(edit_form.description, {'attr' : { 'class':'form-control'} }) }}</td>
+                            </tr>
+                            <tr>
+                                <td>{{ form_label(edit_form.user) }}</td>
+                                <td>{{ form_widget(edit_form.user, {'attr' : { 'class':'form-control'} }) }}</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td><button type="submit" class="btn btn-warning btn-block">Mettre à jour</button></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    {{ form(delete_form) }}
+    <a href="{{ path('secteur') }}" class="btn btn-warning btn-block">
+        Revenir à la liste des secteurs
+    </a>
+
+{% endblock %}

@@ -1,0 +1,7 @@
+parameters:
+#    tache.example.class: Aym3ntn\TacheBundle\Example
+
+services:
+#    tache.example:
+#        class: %tache.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

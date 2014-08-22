@@ -1,0 +1,7 @@
+MedecinBundle_medecin:
+    resource: "@MedecinBundle/Resources/config/routing/medecin.yml"
+    prefix:   /medecin
+
+MedecinBundle_secteur:
+    resource: "@MedecinBundle/Resources/config/routing/secteur.yml"
+    prefix:   /secteur

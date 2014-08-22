@@ -1,0 +1,7 @@
+parameters:
+#    medecin.example.class: Aym3ntn\MedecinBundle\Example
+
+services:
+#    medecin.example:
+#        class: %medecin.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

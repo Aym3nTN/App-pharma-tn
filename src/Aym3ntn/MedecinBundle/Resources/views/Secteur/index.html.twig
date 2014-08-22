@@ -1,0 +1,43 @@
+{% extends '::base.html.twig' %}
+
+{% block header %}Secteur{% endblock %}
+{% block header1 %}Liste{% endblock %}
+{% block body -%}
+    <div class="row">
+        <div class="col-md-12">
+            <a href="{{ path('secteur_new') }}" class="btn btn-success margin-bottom">
+                Ajouter un nouveau secteur
+            </a>
+            <div class="box box-primary">
+                <div class="box-header">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nom</th>
+                            <th>Region</th>
+                            <th>Description</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for entity in entities %}
+                            <tr>
+                                <td><a href="{{ path('secteur_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                                <td>{{ entity.nom }}</td>
+                                <td>{{ entity.region }}</td>
+                                <td>{{ entity.description }}</td>
+                                <td>
+                                    <a href="{{ path('secteur_show', { 'id': entity.id }) }}" class="btn btn-primary">Afficher</a>
+                                    <a href="{{ path('secteur_edit', { 'id': entity.id }) }}" class="btn btn-warning">Modifier</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
