@@ -5,7 +5,7 @@ namespace Aym3ntn\UserBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="Aym3ntn\UserBundle\Entity\UserNoteRepository")
+ * @ORM\Entity
  * @ORM\Table(name="user_note")
  */
 class UserNote {

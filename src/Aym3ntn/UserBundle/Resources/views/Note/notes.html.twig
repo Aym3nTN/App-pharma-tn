@@ -10,9 +10,9 @@
             <ul class="menu">
                 {% for note in notes %}
                 <li>
-                    <a href="{{ path('note_redirect', {'id': note.note.id, 'relatedTo': note.note.relatedTo}) }}"{% if note.status %} class="bg-dark-gray"{% endif %}>
+                    <a href="{{ path('note_redirect', {'id': note.id, 'relatedTo': note.relatedTo}) }}">
                         <i class="fa fa-exclamation success"></i>
-                        {{ note.note.descr|length > 50 ? note.note.descr|slice(0, 50) ~ '...' : note.note.descr }} [{{ note.note.user.id }}]-[{{ note.user.id }}]
+                        {{ note.descr|length > 50 ? note.descr|slice(0, 50) ~ '...' : note.descr }}
                     </a>
                 </li>
                 {% else %}

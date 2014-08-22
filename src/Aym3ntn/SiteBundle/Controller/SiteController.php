@@ -4,7 +4,6 @@ namespace Aym3ntn\SiteBundle\Controller;
 
 use Aym3ntn\MedecinBundle\Entity\Secteur;
 use Aym3ntn\UserBundle\Entity\Note;
-use Aym3ntn\UserBundle\Entity\UserNote;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -22,8 +21,7 @@ class SiteController extends Controller
 
         $secteur = $em->getRepository('MedecinBundle:Secteur')->findByUser($this->getUser());
 
-        $notesGenerales = $em->getRepository('UserBundle:UserNote')->findByType($this->getUser(),'Note générale');
-
+        $notesGenerales = $em->getRepository('UserBundle:Note')->findByUser($this->getUser()->getId(),'Note générale');
 
         if( in_array('ROLE_SUPERVISEUR', $this->getUser()->getRoles() ) ){
             $notes = $em->getRepository('UserBundle:Note')->findBy(array(
@@ -39,15 +37,14 @@ class SiteController extends Controller
         ));
     }
 
-    public function noteRedirectAction(Note $note, $relatedTo){
+    public function noteRedirectAction(Note $id, $relatedTo){
         $em = $this->getDoctrine()->getManager();
 
+        $note = $id;
         if( $relatedTo == 'note' ){
-            $userNote = $em->getRepository('UserBundle:UserNote')->findOneBy(array('user'=>$this->getUser(), 'note' => $note));
-            $userNote->setStatus(1);
-            $em->persist($userNote);
-            $em->flush();
 
+            $note->addTarget($this->getUser());
+            $em->flush($note);
             return $this->redirect($this->generateUrl('note_show', array('id' => $note->getId())));
         }
     }
