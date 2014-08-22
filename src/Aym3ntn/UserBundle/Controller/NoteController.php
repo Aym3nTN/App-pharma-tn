@@ -2,6 +2,7 @@
 
 namespace Aym3ntn\UserBundle\Controller;
 
+use Aym3ntn\UserBundle\Entity\UserNote;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -23,7 +24,7 @@ class NoteController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('UserBundle:Note')->findBy(array('userId' => $this->getUser()->getId(), 'type' => ['note','Note générale']));
+        $entities = $em->getRepository('UserBundle:Note')->findBy(array('user' => $this->getUser()->getId(), 'type' => ['note','Note générale']));
 
         return $this->render('UserBundle:Note:index.html.twig', array(
             'entities' => $entities,
@@ -47,9 +48,20 @@ class NoteController extends Controller
                 $entity->setPublic(1);
 
             $entity->setRelatedTo('note');
-            $entity->setUserId($this->getUser()->getId());
-            $entity->addTarget($this->getUser());
+            $entity->setUser($this->getUser());
             $em->persist($entity);
+            $em->flush();
+
+            $users = $em->getRepository('UserBundle:User')->findAll();
+            foreach( $users as $i => $user ){
+                $userNote[$i] = new UserNote();
+                ( $user == $this->getUser() ) ? $userNote[$i]->setStatus(1) : $userNote[$i]->setStatus(0);
+                $userNote[$i]->setNote($entity);
+                $userNote[$i]->setUser($user);
+                $em->persist($userNote[$i]);
+            }
+
+
             $em->flush();
 
             return $this->redirect($this->generateUrl('note_show', array('id' => $entity->getId())));
