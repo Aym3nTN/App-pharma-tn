@@ -183,6 +183,9 @@ img {
 .bg-gray {
   background-color: #eaeaec !important;
 }
+.bg-dark-gray {
+  background-color: #E9E9E9 !important;
+}
 .bg-black {
   background-color: #222222 !important;
 }
