@@ -8,6 +8,8 @@ $ php composer.phar install
 
 Then, you need to create the databae and update its schema:
 
+(Don't forget to update your `app/config/parameters.yml`)
+
 ```sh
 $ php app/console doctrine:database:create
 $ php app/console doctrine:schema:update --force
