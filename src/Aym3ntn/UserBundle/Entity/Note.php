@@ -44,11 +44,9 @@ class Note
     private $type;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="user_id", type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="Aym3ntn\UserBundle\Entity\User")
      */
-    private $userId;
+    private $user;
 
     /**
      * @var string
@@ -148,18 +146,18 @@ class Note
     }
 
     /**
-     * @param string $userId
+     * @param mixed $user
      */
-    public function setUserId($userId)
+    public function setUser(User $user)
     {
-        $this->userId = $userId;
+        $this->user = $user;
     }
 
     /**
-     * @return string
+     * @return mixed
      */
-    public function getUserId()
+    public function getUser()
     {
-        return $this->userId;
+        return $this->user;
     }
 }

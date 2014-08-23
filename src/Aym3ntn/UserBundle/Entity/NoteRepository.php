@@ -18,14 +18,14 @@ class NoteRepository extends EntityRepository
             ->where('n.type = :type')
             ->setParameter('type', $type);
 
-        $query1 = $this->createQueryBuilder('n')
+/*        $query1 = $this->createQueryBuilder('n')
             ->join('n.targets','t','WITH','t.id = :id')
             ->setParameter('id', $user)->getQuery()->getResult();
 
         $query = $this->createQueryBuilder('n')
             ->where(' n.type = :type ')
             ->andWhere(' n.id NOT IN (:targets) ')
-            ->setParameters(array('targets' => $query1, 'type' => $type));
+            ->setParameters(array('targets' => $query1, 'type' => $type));*/
 
         return $query->getQuery()->getResult();
     }
