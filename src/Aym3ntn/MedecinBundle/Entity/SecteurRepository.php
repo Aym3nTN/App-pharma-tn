@@ -13,7 +13,6 @@ use Doctrine\ORM\EntityRepository;
 class SecteurRepository extends EntityRepository
 {
     public function findMedecinBySecteur($user){
-
         $query = $this->_em->createQuery('
                 SELECT s
                 FROM MedecinBundle:Secteur s
@@ -36,5 +35,33 @@ class SecteurRepository extends EntityRepository
         $query = $this->createQueryBuilder('s')->join('s.users','u','WITH','u.id = :id')->setParameter('id', $user);
 
         return $query->getQuery()->getOneOrNullResult();
+    }
+
+    public function getDelgSuperviseur($user){
+        $superviseurs = $this->createQueryBuilder('q')
+            ->select('u')
+            ->from('UserBundle:User', 'u')
+            ->where('u.roles LIKE :role')
+            ->setParameter('role','%ROLE_SUPERVISEUR%')
+            ->getQuery()->getResult();
+
+        $secteur = $this->createQueryBuilder('s')
+            ->join('s.users','u','WITH','u.id = :user')
+            ->setParameter('user',$user)
+            ->getQuery()
+            ->getResult()[0];
+
+        $superviseur = $this->createQueryBuilder('s')
+            ->join('s.users','u','WITH','u.id IN (:superviseurs)')
+            ->select('u.id')
+            ->andWhere('s.id = :secteur')
+            ->setParameter('secteur',$secteur->getId())
+            ->setParameter('superviseurs',$superviseurs)
+            ->getQuery()
+            ->getSingleResult();
+
+        $user = $this->getEntityManager()->getRepository('UserBundle:User')->find($superviseur);
+
+        return $user;
     }
 }

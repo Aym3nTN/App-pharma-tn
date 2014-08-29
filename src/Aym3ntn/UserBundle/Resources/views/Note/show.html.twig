@@ -1,5 +1,5 @@
 {% extends '::base.html.twig' %}
-{% block header %}Tache{% endblock %}
+{% block header %}Note{% endblock %}
 {% block header1 %}#{{ entity.id }}{% endblock %}
 
 {% block body -%}
@@ -10,28 +10,25 @@
                     <table class="table">
                         <tbody>
                         <tr>
-                            <th>Id</th>
-                            <td>{{ entity.id }}</td>
+                            <th style="width: 200px">Type</th>
+                            <td>{{ entity.type }}</td>
                         </tr>
                         <tr>
-                            <th>Descr</th>
+                            <th>Description</th>
                             <td>{{ entity.descr }}</td>
                         </tr>
-                        <tr>
-                            <th>Type</th>
-                            <td>{{ entity.type }}</td>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
-
-
+    {% if app.user.id == entity.user.id %}
     <a href="{{ path('note_edit', { 'id': entity.id }) }}" class="btn btn-success btn-block margin-bottom">
         Modifier
     </a>
     {{ form(delete_form) }}
+    {% endif %}
     <a href="{{ path('note') }}" class="btn btn-warning btn-block">
         Revenir à la liste
     </a>

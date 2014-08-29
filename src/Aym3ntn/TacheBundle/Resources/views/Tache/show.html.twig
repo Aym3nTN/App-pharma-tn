@@ -4,6 +4,11 @@
 
 {% block body -%}
     <div class="row">
+        {% for key, flash in app.session.getFlashBag() %}
+            <div class="alert alert-{{ key }}">
+                {{ flash[0] }}
+            </div>
+        {% endfor %}
         <div class="col-md-12">
             <div class="box box-primary">
                 <div class="box-header">
@@ -14,19 +19,27 @@
                         </tr>
                         <tr>
                             <td>Status</td>
-                            <td>
                                 {% if entity.status == 1 %}
-                                    <span class="text-danger">En attente</span>
+                            <td class="alert-danger">
+                                     <span class="text-info">En attente</span>
                                 {% elseif entity.status == 2 %}
-                                    <span class="text-warning">Validé par le superviseur</span>
+                            <td class="alert-warning">
+                                <span class="text-warning">Validé par le superviseur</span>
                                 {% elseif entity.status == 3 %}
+                            <td class="alert-warning">
                                     <span class="text-warning">Validé par le chef du produit</span>
+                                {% elseif entity.status == 4 %}
+                            <td class="alert-warning">
+                                    <span class="text-warning">Annulé!</span>
                                 {% elseif entity.status == 0 %}
+                            <td class="alert-success">
                                     <span class="text-success">Validé!</span>
                                 {% elseif entity.status == -1 %}
+                            <td class="alert-danger">
                                     <span class="text-danger">Refusé!</span>
                                 {% endif %}
-                            </td>                        </tr>
+                            </td>
+                        </tr>
                         <tr>
                             <td>Type</td>
                             <td>{{ entity.type.etiquette }} - {{ entity.ssType.etiquette }} </td>
@@ -55,11 +68,71 @@
         </div>
     </div>
 
+    <form action="#" method="post" id="cause-tache">
+    <table class="table box box-danger" style="display: none">
+        <tr>
+            <td>Cause</td>
+            <td><input type="text" name="cause" class="form-control margin-bottom" required/></td>
+        </tr>
+    </table>
+    {% if (app.user.id == entity.owner.id) %}
     <a href="{{ path('admin_task_edit', { 'id': entity.id }) }}" class="btn btn-success btn-block margin-bottom">
         Modifier
     </a>
-    {{ form(delete_form) }}
+    <a onclick="myButton.onClick('cancel')" class="btn btn-warning btn-block margin-bottom">
+        Annulé
+    </a>
+    {% elseif is_granted('ROLE_SUPERVISEUR') or is_granted('ROLE_CHEF_PRODUIT') %}
+
+
+    <div class="row">
+        <div class="col-md-6">
+            {% if entity.status == 3 or entity.status == 4 %}
+            <a onclick="myButton.onClick('cancel')" class="btn btn-warning {% if ( is_granted('ROLE_SUPERVISEUR') and ( entity.status == 2 or entity.status == 3  or entity.status == -1) ) or (is_granted('ROLE_CHEF_PRODUIT') and ( entity.status == 3  or entity.status == -1) ) %}disabled{% endif %} btn-block margin-bottom">
+                Annulé
+            </a>
+            {% else %}
+            <a href="{{ path('superviseur_validate_task', { 'id': entity.id }) }}" class="btn btn-success {% if (is_granted('ROLE_CHEF_PRODUIT') and ( entity.status == 3  or entity.status == -1) ) %}disabled{% endif %} btn-block margin-bottom">
+                Valider
+            </a>
+            {% endif %}
+        </div>
+        <div class="col-md-6">
+            <a onclick="myButton.onClick('refuse')" class="btn btn-danger {% if ( is_granted('ROLE_SUPERVISEUR') and ( entity.status == 2 or entity.status == 3 or entity.status == -1) ) or (is_granted('ROLE_CHEF_PRODUIT') and ( entity.status == 3  or entity.status == -1) ) %}disabled{% endif %} btn-block margin-bottom">
+                Refuser
+            </a>
+        </div>
+    </div>
+    </form>
+
+    {% endif %}
     <a href="{{ path('admin_task') }}" class="btn btn-warning btn-block">
         Revenir à la liste
     </a>
+    <script>
+        myButton = {
+            'cancel' : 0,
+            'refus' : 0,
+            'onClick' : function(action){
+                if( action == "cancel" ){
+                    this.refus = 0;
+                    this.cancel++;
+                    $('#cause-tache').attr('action',"{{ path('superviseur_cancel_task', { 'id': entity.id }) }}");
+                }
+                else{
+                    this.cancel = 0;
+                    this.refus++;
+                    $('#cause-tache').attr('action',"{{ path('superviseur_refuse_task', { 'id': entity.id }) }}");
+                }
+
+                $('#cause-tache table').show(500);
+
+                if( this.cancel >= 2 || this.refus >= 2 )
+                    this.onSubmit();
+            },
+            'onSubmit' : function(){
+                ( $('#cause-tache input').val() != "" ) ? $('#cause-tache').submit() : alert("Veuillez remplir la cause de votre refus!");
+            }
+        };
+    </script>
 {% endblock %}

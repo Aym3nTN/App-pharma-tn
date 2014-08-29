@@ -26,8 +26,30 @@ class UserNoteRepository extends EntityRepository
             ->where('n.type = :type')
             ->andWhere('q.user = :user')
             ->andWhere('q.note NOT IN (:notes)')
+            ->orderBy('n.date','desc')
             ->setParameters(array('user' => $user, 'type' => $type, 'notes' => $notes));
 
         return $query->getQuery()->getResult();
+    }
+
+    public function findTacheNotes(User $user, $type){
+
+        $query = $this->createQueryBuilder('q');
+        $query->join('UserBundle:Note','n')
+            ->where('n.type = :type')
+            ->andWhere('q.user = :user')
+            ->orderBy('n.date','desc')
+            ->setParameters(array('user' => $user, 'type' => $type));
+
+        return $query->getQuery()->getResult();
+    }
+
+    public function countUnseenNotes($notesGenerales){
+        $count = 0;
+        foreach( $notesGenerales as $note ){
+            if( !$note->getStatus() )
+                $count++;
+        }
+        return $count;
     }
 }

@@ -29,6 +29,10 @@ class TacheType extends AbstractType
                     'multiple'  => true,
                     'required' => true,
             ))
+            ->add('members', null, array(
+                    'multiple'  => true,
+                    'required' => true,
+            ))
             ->add('type','entity', array(
                 'class' => 'Aym3ntn\TacheBundle\Entity\TypeTache',
                 'property' => 'etiquette',

@@ -36,3 +36,15 @@ admin_ajouter_lieu_ajax:
 sous_type_tache_ajax:
     pattern: /chargerSousTypeTache
     defaults: { _controller: "TacheBundle:Tache:chargerSousTypeAjax" }
+
+superviseur_validate_task:
+    pattern: /{id}/validate
+    defaults: { _controller: "TacheBundle:Tache:validate" }
+
+superviseur_refuse_task:
+    pattern: /{id}/refuse
+    defaults: { _controller: "TacheBundle:Tache:refuse" }
+
+superviseur_cancel_task:
+    pattern: /{id}/cancel
+    defaults: { _controller: "TacheBundle:Tache:cancel" }

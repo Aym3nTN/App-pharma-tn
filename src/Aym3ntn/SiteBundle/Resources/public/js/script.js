@@ -72,6 +72,12 @@ $(function() {
         size: "3px"
     }).css("width", "100%");
 
+    $(".scroll-list").slimscroll({
+        height: "100px",
+        alwaysVisible: false,
+        size: "5px"
+    }).css("width", "100%");
+
     /*
      * INITIALIZE BUTTON TOGGLE
      * ------------------------

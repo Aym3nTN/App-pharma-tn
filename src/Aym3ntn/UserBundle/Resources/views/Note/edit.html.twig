@@ -1,16 +1,36 @@
 {% extends '::base.html.twig' %}
-
+{% block header %}Note{% endblock %}
+{% block header1 %}Nouveau{% endblock %}
 {% block body -%}
-    <h1>Note edit</h1>
+    <form action="{{ path('note_update', {'id':entity.id}) }}" method="post">
+        <input type="hidden" name="_method" value="PUT">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        {{ form_errors(edit_form) }}
+                        <table class="table">
+                            <tr>
+                                <td>Description</td>
+                                <td>{{ form_widget(edit_form.descr, {'attr' : { 'class':'form-control'} }) }}</td>
+                            </tr>
+                            <tr>
+                                <td>Type</td>
+                                <td>{{ form_widget(edit_form.type, {'attr' : { 'class':'form-control'} }) }}</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td><button type="submit" class="btn btn-success btn-block">Mettre à jour</button></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 
-    {{ form(edit_form) }}
+    <a href="{{ path('note') }}" class="btn btn-warning btn-block">
+        Back to the list
+    </a>
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('admin_note') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
 {% endblock %}

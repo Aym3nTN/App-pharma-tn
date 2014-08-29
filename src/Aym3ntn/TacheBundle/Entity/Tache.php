@@ -35,11 +35,18 @@ class Tache
     private $descr;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="cause_annulation", type="text", nullable=true)
+     */
+    private $causeAnnulation = null;
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="status", type="integer")
      */
-    private $status; // en attente = 1, validé par superviseur = 2, validé par le chef du produit = 3, OK = 0
+    private $status; // en attente = 1, validé par superviseur = 2, validé par le chef du produit = 3, annulé = 4, refusé = -1
 
     /**
      * @ORM\ManyToOne(targetEntity="Aym3ntn\UserBundle\Entity\User")
@@ -70,9 +77,15 @@ class Tache
      */
     protected $medecins;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="Aym3ntn\UserBundle\Entity\User")
+     */
+    protected $members;
+
     public function __construct()
     {
         $this->medecins = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->members = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     public function addMedecin(\Aym3ntn\MedecinBundle\Entity\Medecin $medecin)
@@ -89,6 +102,22 @@ class Tache
     public function getMedecins()
     {
         return $this->medecins;
+    }
+
+    public function addMember(\Aym3ntn\UserBundle\Entity\User $member)
+    {
+        $this->members[] = $member;
+        return $this;
+    }
+
+    public function removeMember(\Aym3ntn\UserBundle\Entity\User $member)
+    {
+        $this->members->removeElement($member);
+    }
+
+    public function getMembers()
+    {
+        return $this->members;
     }
 
     /**
@@ -225,5 +254,21 @@ class Tache
     public function setSsType(ssTypeTache $ssType)
     {
         $this->ssType = $ssType;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCauseAnnulation()
+    {
+        return $this->causeAnnulation;
+    }
+
+    /**
+     * @param string $causeAnnulation
+     */
+    public function setCauseAnnulation($causeAnnulation)
+    {
+        $this->causeAnnulation = $causeAnnulation;
     }
 }

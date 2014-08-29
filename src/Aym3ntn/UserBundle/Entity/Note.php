@@ -3,6 +3,7 @@
 namespace Aym3ntn\UserBundle\Entity;
 
 use Aym3ntn\MedecinBundle\Entity\Secteur;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -54,6 +55,13 @@ class Note
      * @ORM\Column(name="related_to", type="string", length=255, nullable=true)
      */
     private $relatedTo;
+
+    /**
+     * @var Datetime
+     *
+     * @ORM\Column(name="date", type="datetime", nullable=true)
+     */
+    private $date;
 
     //$public = 1, $descr = '',  $secteur = null, $relatedTo = '', $type = '', $userId = '', $isDone = true)
 
@@ -159,5 +167,21 @@ class Note
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * @param \DateTime $date
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
     }
 }

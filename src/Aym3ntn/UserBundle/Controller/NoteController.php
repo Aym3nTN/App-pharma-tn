@@ -54,11 +54,13 @@ class NoteController extends Controller
 
             $users = $em->getRepository('UserBundle:User')->findAll();
             foreach( $users as $i => $user ){
-                $userNote[$i] = new UserNote();
-                ( $user == $this->getUser() ) ? $userNote[$i]->setStatus(1) : $userNote[$i]->setStatus(0);
-                $userNote[$i]->setNote($entity);
-                $userNote[$i]->setUser($user);
-                $em->persist($userNote[$i]);
+                if( $user != $this->getUser() ){
+                    $userNote[$i] = new UserNote();
+                    $userNote[$i]->setStatus(0);
+                    $userNote[$i]->setNote($entity);
+                    $userNote[$i]->setUser($user);
+                    $em->persist($userNote[$i]);
+                }
             }
 
 
@@ -115,7 +117,7 @@ class NoteController extends Controller
 
         $entity = $em->getRepository('UserBundle:Note')->find($id);
 
-        if (!$entity) {
+        if (!$entity ) {
             throw $this->createNotFoundException('Unable to find Note entity.');
         }
 
@@ -137,8 +139,12 @@ class NoteController extends Controller
 
         $entity = $em->getRepository('UserBundle:Note')->find($id);
 
-        if (!$entity) {
+        if (!$entity ) {
             throw $this->createNotFoundException('Unable to find Note entity.');
+        }
+
+        if ( $this->getUser()->getId() != $entity->getUser()->getId() ) {
+            throw $this->createNotFoundException('Et bah didon!! Ce n\'est pas bon ce que tu es entrain de faire ;).');
         }
 
         $editForm = $this->createEditForm($entity);
@@ -181,6 +187,10 @@ class NoteController extends Controller
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Note entity.');
+        }
+
+        if ( $this->getUser()->getId() != $entity->getUser()->getId() ) {
+            throw $this->createNotFoundException('Et bah didon!! Ce n\'est pas bon ce que tu es entrain de faire ;).');
         }
 
         $deleteForm = $this->createDeleteForm($id);

@@ -1,18 +1,18 @@
 <li class="dropdown notifications-menu">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
         <i class="fa fa-warning"></i>
-        <span class="label label-warning">{{ notes | length }}</span>
+        <span class="label label-warning">{{ countNotes }}</span>
     </a>
     <ul class="dropdown-menu">
-        <li class="header">Vous avez {{ notes | length }} notification(s).</li>
+        <li class="header">Vous avez {{ countNotes }} notification(s).</li>
         <li>
             <!-- inner menu: contains the actual data -->
             <ul class="menu">
                 {% for note in notes %}
                 <li>
-                    <a href="{{ path('note_redirect', {'id': note.note.id, 'relatedTo': note.note.relatedTo}) }}"{% if note.status %} class="bg-dark-gray"{% endif %}>
+                    <a href="{{ path('note_redirect', {'id': note.note.id, 'relatedTo': note.note.relatedTo}) }}"{% if not(note.status) %} class="bg-dark-gray"{% endif %}>
                         <i class="fa fa-exclamation success"></i>
-                        {{ note.note.descr|length > 50 ? note.note.descr|slice(0, 50) ~ '...' : note.note.descr }} [{{ note.note.user.id }}]-[{{ note.user.id }}]
+                        {{ note.note.descr|length > 50 ? note.note.descr|slice(0, 50) ~ '...' : note.note.descr }}
                     </a>
                 </li>
                 {% else %}
